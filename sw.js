@@ -1,5 +1,6 @@
-const CACHE_NAME = 'dero-tycoon-v1';
+const CACHE_NAME = 'dero-tycoon-v1.3';
 const ASSETS = [
+    './',
     './index.html',
     './css/style.css',
     './css/apps.css',
@@ -14,18 +15,37 @@ const ASSETS = [
     './js/systems/Player.js',
     './js/systems/EconomySystem.js',
     './js/systems/BuildingManager.js',
-    './js/data/buildings.js'
-    // Add other critical files as needed
+    './js/data/buildings.js',
+    './js/ui/MapRenderer.js',
+    './js/ui/ParticleSystem.js'
 ];
 
+// Install: Cache all assets
 self.addEventListener('install', (e) => {
+    self.skipWaiting();
     e.waitUntil(
         caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
     );
 });
 
+// Activate: Delete old caches
+self.addEventListener('activate', (e) => {
+    e.waitUntil(
+        caches.keys().then((keys) => {
+            return Promise.all(
+                keys.map((key) => {
+                    if (key !== CACHE_NAME) {
+                        return caches.delete(key);
+                    }
+                })
+            );
+        })
+    );
+});
+
+// Fetch: Strategy Network-first with Cache fallback for game logic
 self.addEventListener('fetch', (e) => {
     e.respondWith(
-        caches.match(e.request).then((response) => response || fetch(e.request))
+        fetch(e.request).catch(() => caches.match(e.request))
     );
 });

@@ -1,0 +1,149 @@
+/* MAP VIEW (Top-Down Vector Style) */
+.map-view {
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    background: #555;
+    /* Debug Grey */
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    touch-action: none;
+}
+
+/* SEASONS BACKGROUNDS */
+.map-view.season-1 {
+    background: #e6f2e6;
+}
+
+/* Spring */
+.map-view.season-2 {
+    background: #fffbe6;
+}
+
+/* Summer */
+.map-view.season-3 {
+    background: #fff0e6;
+}
+
+/* Autumn */
+.map-view.season-0 {
+    background: #f0f8ff;
+}
+
+/* Winter */
+
+/* WEATHER OVERLAYS */
+.map-view.weather-pioggia::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 100, 0.2);
+    pointer-events: none;
+    z-index: 999;
+}
+
+.map-view.weather-nebbia::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* GRID CONTAINER */
+.iso-grid {
+    position: relative;
+    width: 600px;
+    /* Overwritten by JS dynamic size */
+    height: 600px;
+    display: grid;
+    /* Grid columns/rows set by JS */
+    gap: 0px;
+    /* CONTINUOUS ROADS */
+    background-color: #bdc3c7;
+    border: 5px solid #333;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* TILES */
+.iso-tile {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #ecf0f1;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+    /* Subtle grid line */
+}
+
+.iso-tile:hover {
+    z-index: 10;
+    transform: scale(1.1);
+    box-shadow: 0 0 5px black;
+}
+
+/* Road Styling for Continuity */
+.iso-tile.road {
+    background: #555;
+    /* Match building.js color if possible, or override */
+}
+
+.iso-tile.road .building {
+    background-color: #555 !important;
+    border-radius: 0 !important;
+}
+
+/* Connect roads by removing inner shadow/border */
+.iso-tile.road {
+    box-shadow: none;
+}
+
+/* Water */
+.iso-tile.port,
+.iso-tile.water {
+    background: #2196F3;
+}
+
+.iso-tile.owner-player {
+    box-shadow: inset 0 0 0 2px lime;
+    /* Border inset to not mess with grid */
+}
+
+.iso-tile.owner-rival {
+    box-shadow: inset 0 0 0 2px #f44336;
+    /* Red border for rivals */
+}
+
+.iso-tile.owner-public,
+.iso-tile.road {
+    border: none;
+}
+
+/* BUILDING REPRESENTATION */
+.building {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 1px 2px black;
+    pointer-events: none;
+}

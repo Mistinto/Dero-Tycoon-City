@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dero Tycoon: City</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/apps.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/hud.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏙️</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- FULLSCREEN MAP LAYER -->
+        <div id="map-view" class="map-view"></div>
+
+        <!-- HUD LAYER -->
+        <div id="hud-overlay">
+            <!-- TOP BAR: Status & Time -->
+            <div class="hud-top-bar" id="hud-top">
+                <div class="hud-group">
+                    <div class="hud-item" id="date-display">Giorno 1</div>
+                    <div class="hud-item" id="clock">08:00</div>
+                    <div class="hud-item" id="weather-display">☀️ 22°C</div>
+                </div>
+
+                <!-- MOVED NEEDS HERE -->
+                <div class="hud-group" style="gap:10px;">
+                    <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="font-size:0.8em; font-weight:bold;">🍔 Fame</div>
+                        <div class="bar-bg" style="width:100px; height:6px;">
+                            <div class="bar-fill" id="bar-hunger" style="width: 100%; background: #4CAF50;"></div>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="font-size:0.8em; font-weight:bold;">💧 Sete</div>
+                        <div class="bar-bg" style="width:100px; height:6px;">
+                            <div class="bar-fill" id="bar-thirst" style="width: 100%; background: #2196F3;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hud-group">
+                    <div class="hud-item cash">💵 <span id="money-display">€200</span></div>
+                    <div class="hud-item bank">💳 <span id="bank-display">€5,000</span></div>
+                    <div class="hud-item rep">⭐ <span id="rep-display">100</span></div>
+
+                    <!-- SYSTEM BUTTONS -->
+                    <button class="sys-btn" onclick="openApp('menu')" style="background:#555; border:1px solid #777;">📱
+                        Menu</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- APP MODAL CONTAINER (Popups) -->
+    <div id="app-modal-container" class="hidden">
+        <div class="modal-content">
+            <!-- Close button removed (handled by Apps) -->
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="notification-area"></div>
+    </div>
+
+    <!-- SCRIPTS (Order Matches Dependencies) -->
+    <!-- Data -->
+    <script src="js/data/buildings.js"></script>
+    <script src="js/data/events.js"></script>
+
+    <!-- Core -->
+    <script src="js/core/SaveSystem.js"></script>
+    <script src="js/core/AudioManager.js"></script>
+    <script src="js/core/TimeManager.js"></script>
+
+    <!-- Systems -->
+    <script src="js/systems/Player.js"></script>
+    <script src="js/systems/Notary.js"></script>
+    <script src="js/systems/Environment.js"></script>
+    <script src="js/systems/RivalAI.js"></script>
+    <script src="js/systems/NPCManager.js"></script>
+    <script src="js/systems/EventManager.js"></script>
+    <script src="js/systems/PoliticsManager.js"></script>
+    <script src="js/systems/EconomySystem.js"></script>
+    <script src="js/systems/BuildingManager.js"></script>
+    <script src="js/systems/AchievementManager.js"></script>
+
+    <!-- UI Utils -->
+    <script src="js/ui/MapRenderer.js"></script>
+    <script src="js/ui/ParticleSystem.js"></script>
+
+    <!-- Apps -->
+    <script src="js/ui/Apps/BankApp.js"></script>
+    <script src="js/ui/Apps/JobApp.js"></script>
+    <script src="js/ui/Apps/NeedsApp.js"></script>
+    <script src="js/ui/Apps/ContactsApp.js"></script>
+    <script src="js/ui/Apps/PoliticsApp.js"></script>
+
+    <!-- Phase 7 Apps -->
+    <script src="js/ui/Apps/UniversityApp.js"></script>
+    <script src="js/ui/Apps/StadiumApp.js"></script>
+    <script src="js/ui/Apps/WeatherApp.js"></script>
+    <script src="js/ui/Apps/CommunityApp.js"></script>
+    <script src="js/ui/Apps/SchoolApp.js"></script>
+    <script src="js/ui/Apps/HospitalApp.js"></script>
+    <script src="js/ui/Apps/PoliceApp.js"></script>
+    <script src="js/ui/Apps/FireStationApp.js"></script>
+    <script src="js/ui/Apps/NotaryApp.js"></script>
+    <script src="js/ui/Apps/CarShopApp.js"></script>
+    <script src="js/ui/Apps/PremiumShopApp.js"></script>
+    <script src="js/ui/Apps/PetApp.js"></script>
+    <script src="js/ui/Apps/ProfileApp.js"></script>
+    <script src="js/ui/Apps/NewsApp.js"></script>
+    <script src="js/ui/Apps/WikiApp.js"></script>
+    <script src="js/ui/Apps/AchievementsApp.js"></script>
+    <script src="js/systems/TutorialManager.js"></script>
+
+    <!-- Managers -->
+    <script src="js/ui/UIManager.js"></script>
+    <script src="js/core/GameEngine.js"></script>
+
+    <!-- Main -->
+    <script src="js/main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.error('SW Error:', err));
+        }
+    </script>
+</body>
+
+</html>

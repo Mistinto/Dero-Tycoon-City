@@ -177,3 +177,50 @@
     font-size: 24px;
     cursor: pointer;
 }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 600px) {
+    .hud-top-bar {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: env(safe-area-inset-top, 5px) 5px 5px 5px;
+        min-height: auto;
+        gap: 5px;
+    }
+
+    .hud-group {
+        gap: 8px;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 4px 8px;
+        border-radius: 8px;
+    }
+
+    .hud-item {
+        font-size: 13px;
+    }
+
+    /* Hide labels to save space, keep only values/icons */
+    #date-display,
+    .hud-group>div>div:first-child {
+        display: none !important;
+    }
+
+    /* Shrink the bars group */
+    .hud-group[style*="gap:10px"] {
+        order: 3;
+        /* Move needs to second row */
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cash,
+    .bank,
+    .rep {
+        font-size: 14px;
+    }
+
+    .sys-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}

@@ -45,4 +45,5 @@ Dero Tycoon City è un simulatore di vita e gestione cittadina in tempo reale, g
 - LocalStorage per i salvataggi.
 
 ---
-*Creato da [Il Tuo Nome] con il supporto di Gemini Antigravity AI.*
+*Creato da Mistinto
+

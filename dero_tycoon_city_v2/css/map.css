@@ -6,14 +6,13 @@
     background: #555;
     /* Debug Grey */
     overflow: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* Required for .scrollLeft/Top to work */
     position: fixed;
     top: 0;
     left: 0;
     z-index: 0;
-    padding: 20px;
+    touch-action: none;
+    /* Disable native touch gestures for custom pan */
 }
 
 /* SEASONS BACKGROUNDS */
@@ -122,6 +121,11 @@
 .iso-tile.owner-player {
     box-shadow: inset 0 0 0 2px lime;
     /* Border inset to not mess with grid */
+}
+
+.iso-tile.owner-rival {
+    box-shadow: inset 0 0 0 2px #f44336;
+    /* Red border for rivals */
 }
 
 .iso-tile.owner-public,

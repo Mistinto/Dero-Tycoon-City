@@ -87,13 +87,13 @@ class TutorialManager {
 
         modal.innerHTML = `
             <h2 style="color: #2E7D32; margin-top: 0;">${data.title}</h2>
-            <p style="font-size: 1.1em; line-height: 1.5;">${data.text}</p>
+            <p style="font-size: 1.1em; line-height: 1.5; color: #333;">${data.text}</p>
             <div style="margin-top: 20px;">
-                <button onclick="window.GameEngine.tutorial.next()" style="font-size: 1.2em; padding: 10px 20px;">
+                <button onclick="window.GameEngine.tutorial.next()" style="font-size: 1.2em; padding: 10px 20px; color: white;">
                     ${this.step < this.steps.length - 1 ? 'Avanti ➡️' : 'Inizia a Giocare! 🚀'}
                 </button>
             </div>
-            <div style="margin-top: 10px; font-size: 0.8em; color: #777;">
+            <div style="margin-top: 10px; font-size: 0.8em; color: #555;">
                 Passo ${this.step + 1} di ${this.steps.length}
             </div>
         `;

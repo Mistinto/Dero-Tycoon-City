@@ -356,11 +356,11 @@ class UIManager {
 
         this.modalBody.innerHTML = `
             <div class="app-header">
-                <span class="app-title">📱 DeroOS 2.0</span>
+                <span class="app-title">📱 DeroOS 1.3.1</span>
                 <button onclick="window.GameEngine.ui.closeModal()">✖️</button>
             </div>
             <div class="app-content" style="padding: 20px;">
-                <div id="app-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                <div id="app-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 10px;">
                     ${gridHtml}
                 </div>
             </div>
@@ -369,33 +369,39 @@ class UIManager {
 
     // Settings App Implementation (Inline)
     openSettings() {
-        // Build HTML for install button if deferredPrompt exists
-        let installBtn = '';
-        if (window.deferredPrompt) {
-            installBtn = `<button class="job-btn" style="background: #E91E63;" onclick="window.GameEngine.ui.installApp()">📲 Installa App</button>`;
-        }
+        const canInstall = !!window.deferredPrompt;
+        let installBtn = `
+            <button class="job-btn" 
+                    style="background: ${canInstall ? '#E91E63' : '#444'}; opacity: ${canInstall ? '1' : '0.6'};" 
+                    onclick="${canInstall ? 'window.GameEngine.ui.installApp()' : 'alert(\'Attendi che il browser attivi l\\\'installazione (potrebbe volerci qualche istante su HTTPS).\')'}"
+            >
+                ${canInstall ? '📲 Installa App' : '⏳ Installazione non pronta'}
+            </button>
+        `;
 
         this.modalBody.innerHTML = `
             <div class="app-header" style="background: #455A64;">
                 <span class="app-title">⚙️ Opzioni</span>
                 <button onclick="window.GameEngine.ui.openApp('menu')">🔙</button>
             </div>
-            <div class="app-content" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+            <div class="app-content" style="padding: 20px; display: flex; flex-direction: column; gap: 10px; height: 100%; overflow-y: auto;">
                 ${installBtn}
-                <h3>Gestione Salvataggi</h3>
+                
+                <h3 style="margin-top:10px;">Versione: V1.3.1 (PWA)</h3>
+                <button class="job-btn" style="background: #00897B;" onclick="location.reload(true)">🔄 Forza Ricarica Pagina</button>
+                <button class="job-btn" style="background: #D32F2F;" onclick="window.GameEngine.ui.forceUpdate()">🧹 Svuota Cache Gioco</button>
+
+                <h3 style="margin-top:15px;">Salvataggi</h3>
                 <button class="job-btn" onclick="saveGame(); window.GameEngine.ui.showNotification('✅ Salvato!', 'success')">💾 Salva (Locale)</button>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
-                     <button class="job-btn" style="background: #00897B;" onclick="window.GameEngine.saveSystem.exportSave()">⬇️ Export File</button>
-                     <button class="job-btn" style="background: #00897B;" onclick="window.GameEngine.saveSystem.importSave()">⬆️ Import File</button>
+                     <button class="job-btn" style="background: #00897B;" onclick="window.GameEngine.saveSystem.exportSave()">⬇️ Export</button>
+                     <button class="job-btn" style="background: #00897B;" onclick="window.GameEngine.saveSystem.importSave()">⬆️ Import</button>
                 </div>
                 <button class="job-btn" style="background: #FF9800;" onclick="loadGame(); window.GameEngine.ui.closeModal()">📂 Carica (Locale)</button>
-                <button class="job-btn" style="background: #f44336;" onclick="if(confirm('Cancellare tutto?')) { localStorage.removeItem('dero_tycoon_save'); location.reload(); }">🗑️ Reset Totale</button>
+                <button class="job-btn" style="background: #f44336; font-size: 0.8em;" onclick="if(confirm('Cancellare tutto?')) { localStorage.clear(); location.reload(); }">🗑️ Reset Totale</button>
                 
                 <h3>Audio</h3>
-                <button class="job-btn" onclick="window.GameEngine.audio.toggleMute()">🔊 Attiva/Disattiva Suoni</button>
-                
-                <h3 style="margin-top: 20px;">Info</h3>
-                <p style="color: #aaa; font-size: 0.9em;">Dero Tycoon City v2.0 - Phase 13 (PWA)</p>
+                <button class="job-btn" onclick="window.GameEngine.audio.toggleMute()">🔊 On/Off Suoni</button>
             </div>
         `;
     }
@@ -410,5 +416,17 @@ class UIManager {
             window.deferredPrompt = null;
             this.openSettings(); // Refresh UI to hide button
         });
+    }
+
+    forceUpdate() {
+        if ('caches' in window) {
+            caches.keys().then((names) => {
+                for (let name of names) caches.delete(name);
+            });
+            alert("Cache svuotata! Il gioco si ricaricherà ora.");
+            location.reload(true);
+        } else {
+            alert("Il tuo browser non supporta la pulizia automatica della cache.");
+        }
     }
 }
